@@ -10,7 +10,7 @@ const leadSchema = new mongoose.Schema({
         enum: ["New", "Contacted", "In Progress", "Closed"],
         default: "New",
     },
-    leadSource:String,
+    leadSource: String,
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     disposition: { type: String, enum: ["Interested", "Not Interested", "Follow Up", "Wrong Number"], default: "Follow Up" },
     remarks: { type: String, default: "" }

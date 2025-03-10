@@ -36,7 +36,7 @@ const Leads = () => {
         e.preventDefault();
         try {
             const res = await axios.post(
-                `https://lead-management-system-server.onrender.com/api/leads/`,
+                `https://lead-management-system-server.onrender.com/api/leads`,
                 { name, email, phone, status, disposition, remarks,leadSource },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
