@@ -12,7 +12,7 @@ const Dashboard = () => {
         const fetchData = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const res = await axios.get("http://localhost:5002/api/auth/dashboard", {
+                const res = await axios.get(`https://lead-management-system-restapi.onrender.com/api/auth/dashboard`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setMessage(res.data.message);

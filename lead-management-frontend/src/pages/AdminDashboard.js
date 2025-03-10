@@ -8,7 +8,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5002/api/users", {
+      const res = await axios.get(`https://lead-management-system-restapi.onrender.com/api/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(res.data);
@@ -18,7 +18,7 @@ const AdminDashboard = () => {
 
   const updateRole = async (id, role) => {
     const token = localStorage.getItem("token");
-    await axios.put(`http://localhost:5002/api/users/${id}`, { role }, {
+    await axios.put(`https://lead-management-system-restapi.onrender.com/api/users/${id}`, { role }, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setUsers(users.map(user => user._id === id ? { ...user, role } : user));
@@ -26,7 +26,7 @@ const AdminDashboard = () => {
 
   const deleteUser = async (id) => {
     const token = localStorage.getItem("token");
-    await axios.delete(`http://localhost:5002/api/users/${id}`, {
+    await axios.delete(`https://lead-management-system-restapi.onrender.com/api/users/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setUsers(users.filter(user => user._id !== id));

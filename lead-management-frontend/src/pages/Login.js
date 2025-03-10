@@ -13,7 +13,7 @@ const Login = ({ setIsAuthenticated }) => {
         alert("clicked")
         setError("");
         try {
-            const res = await axios.post("http://localhost:5002/api/auth/login", { email, password });
+            const res = await axios.post(`https://lead-management-system-restapi.onrender.com/api/auth/login`, { email, password });
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("role",res.data.role)
             setIsAuthenticated(true);

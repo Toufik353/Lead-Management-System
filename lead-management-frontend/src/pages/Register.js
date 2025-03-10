@@ -12,7 +12,7 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:5002/api/auth/register", { name, email, password, role });
+            await axios.post(`https://lead-management-system-restapi.onrender.com/api/auth/register`, { name, email, password, role });
             alert("Registration successful! Please login.");
             navigate("/login");
         } catch (error) {
