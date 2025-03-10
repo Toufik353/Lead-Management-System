@@ -7,7 +7,8 @@ const router = express.Router();
 // ➤ Create a new Lead
 router.post("/", protect, async (req, res) => {
     try {
-        const { name, email, phone,status,disposition,remarks,leadSource } = req.body;
+        const { name, email, phone, status, disposition, remarks, leadSource } = req.body;
+        console.log("test",name, email, phone, status, disposition, remarks, leadSource)
         const lead = await Lead.create({ name, email, phone,status,disposition,remarks,leadSource, createdBy: req.user.id });
         res.status(201).json(lead);
     } catch (error) {

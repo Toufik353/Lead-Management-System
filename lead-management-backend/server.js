@@ -20,5 +20,5 @@ app.use("/api/callbacks", require("./routes/callbackRoute"));
 // app.use("/api/users", require("./routes/userRoutes")); 
 
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

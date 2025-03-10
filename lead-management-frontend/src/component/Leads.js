@@ -34,10 +34,11 @@ const Leads = () => {
 
     const handleCreateLead = async (e) => {
         e.preventDefault();
+        console.log(name, email, phone, status, disposition, remarks,leadSource )
         try {
             const res = await axios.post(
                 `https://lead-management-system-server.onrender.com/api/leads`,
-                { name, email, phone, status, disposition, remarks,leadSource },
+                { name, email, phone, status, disposition, remarks,leadSource  },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             console.log("New Lead Created:", res.data);
