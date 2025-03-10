@@ -6,13 +6,13 @@ const Callback = require("../models/CallBack");
 router.post("/", async (req, res) => {
  try {
 
-    const { name, email, phone, leadId, scheduledAt } = req.body;
+    const { name, email, phone, scheduledAt,notes } = req.body;
 
-    if (!email || !leadId || !scheduledAt) {
+    if (!email || !scheduledAt) {
       return res.status(400).json({ message: "Missing required fields: email, leadId, scheduledAt" });
     }
 
-    const newCallback = new Callback({ name, email, phone, leadId, scheduledAt });
+    const newCallback = new Callback({ name, email, phone, scheduledAt,notes });
     await newCallback.save();
     res.status(201).json(newCallback);
   } catch (error) {

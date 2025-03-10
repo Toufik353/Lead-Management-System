@@ -7,8 +7,8 @@ const router = express.Router();
 // ➤ Create a new Lead
 router.post("/", protect, async (req, res) => {
     try {
-        const { name, email, phone,status,disposition,remarks, } = req.body;
-        const lead = await Lead.create({ name, email, phone,status,disposition,remarks, createdBy: req.user.id });
+        const { name, email, phone,status,disposition,remarks,leadSource } = req.body;
+        const lead = await Lead.create({ name, email, phone,status,disposition,remarks,leadSource, createdBy: req.user.id });
         res.status(201).json(lead);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -47,7 +47,7 @@ router.get("/", protect, async (req, res) => {
 // ➤ Update a Lead
 router.put("/:id", protect, async (req, res) => {
     try {
-        const { name, email, phone, company, status, disposition, remarks } = req.body;
+        const { name, email, phone, company, status, disposition, remarks ,leadSource} = req.body;
         let lead = await Lead.findById(req.params.id);
 
         if (!lead) {
@@ -62,6 +62,7 @@ router.put("/:id", protect, async (req, res) => {
         lead.status = status || lead.status;
         lead.disposition = disposition || lead.disposition;
         lead.remarks = remarks || lead.remarks;
+        lead.leadSource = leadSource || lead.leadSource
 
         await lead.save();
 

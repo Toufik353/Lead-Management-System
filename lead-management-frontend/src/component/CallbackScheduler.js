@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal, Form, Container, Row, Col } from "react-bootstrap";
 
 const CallbackScheduler = () => {
   const [callbacks, setCallbacks] = useState([]);
@@ -19,7 +19,7 @@ const CallbackScheduler = () => {
 
   const fetchCallbacks = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/callbacks");
+      const response = await axios.get(`https://lead-management-system-server.onrender.com/api/callbacks`);
       setCallbacks(response.data);
     } catch (error) {
       console.error("Error fetching callbacks:", error);
@@ -33,7 +33,7 @@ const CallbackScheduler = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5001/api/callbacks", formData);
+      await axios.post(`https://lead-management-system-server.onrender.com/api/callbacks`, formData);
       setShow(false);
       fetchCallbacks();
     } catch (error) {
@@ -42,8 +42,10 @@ const CallbackScheduler = () => {
   };
 
   const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this lead?");
+    if (!confirmDelete) return;
     try {
-      await axios.delete(`http://localhost:5001/api/callbacks/${id}`);
+      await axios.delete(`https://lead-management-system-server.onrender.com/api/callbacks/${id}`);
       fetchCallbacks();
     } catch (error) {
       console.error("Error deleting callback:", error);
@@ -51,66 +53,88 @@ const CallbackScheduler = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Callback Scheduler</h2>
-      <Button variant="primary" onClick={() => setShow(true)}>Schedule Callback</Button>
+    <Container className="mt-4">
+      <Row className="mb-3">
+        <Col className="text-center">
+          <h2 className="mb-3 text-primary">Callback Scheduler</h2>
+          <Button variant="success" onClick={() => setShow(true)}>+ Schedule Callback</Button>
+        </Col>
+      </Row>
 
-      <Table striped bordered hover className="mt-3">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Scheduled At</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {callbacks.map((cb) => (
-            <tr key={cb._id}>
-              <td>{cb.name}</td>
-              <td>{cb.email}</td>
-              <td>{cb.phone}</td>
-              <td>{new Date(cb.scheduledAt).toLocaleString()}</td>
-              <td>
-                <Button variant="danger" onClick={() => handleDelete(cb._id)}>Delete</Button>
-              </td>
+      {/* Table Container */}
+      <div className="table-responsive">
+        <Table striped bordered hover className="mt-3">
+          <thead className="bg-light text-center">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Notes</th>
+              <th>Scheduled At</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {callbacks.map((cb) => (
+              <tr key={cb._id}>
+                <td>{cb.name}</td>
+                <td>{cb.email}</td>
+                <td>{cb.phone}</td>
+                <td>{cb.notes}</td>
+                <td>{new Date(cb.scheduledAt).toLocaleString()}</td>
+                <td>
+                  <Button variant="danger" size="sm" onClick={() => handleDelete(cb._id)}>Delete</Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
 
-      <Modal show={show} onHide={() => setShow(false)}>
+      {/* Modal for Scheduling Callback */}
+      <Modal show={show} onHide={() => setShow(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Schedule Callback</Modal.Title>
+          <Modal.Title>Schedule a Callback</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Group>
-              <Form.Label>Name</Form.Label>
-              <Form.Control type="text" name="name" onChange={handleChange} required />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" name="email" onChange={handleChange} required />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Phone</Form.Label>
-              <Form.Control type="text" name="phone" onChange={handleChange} required />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Scheduled At</Form.Label>
-              <Form.Control type="datetime-local" name="scheduledAt" onChange={handleChange} required />
-            </Form.Group>
-            <Form.Group>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control type="text" name="name" onChange={handleChange} required />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control type="email" name="email" onChange={handleChange} required />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Phone</Form.Label>
+                  <Form.Control type="text" name="phone" onChange={handleChange} required />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Scheduled At</Form.Label>
+                  <Form.Control type="datetime-local" name="scheduledAt" onChange={handleChange} required />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Form.Group className="mt-2">
               <Form.Label>Notes</Form.Label>
-              <Form.Control as="textarea" name="notes" onChange={handleChange} />
+              <Form.Control as="textarea" name="notes" rows={3} onChange={handleChange} />
             </Form.Group>
-            <Button type="submit" className="mt-3">Save</Button>
+            <Button type="submit" variant="primary" className="mt-3 w-100">Save Callback</Button>
           </Form>
         </Modal.Body>
       </Modal>
-    </div>
+    </Container>
   );
 };
 
