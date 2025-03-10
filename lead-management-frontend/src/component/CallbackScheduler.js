@@ -19,7 +19,7 @@ const CallbackScheduler = () => {
 
   const fetchCallbacks = async () => {
     try {
-      const response = await axios.get(`https://lead-management-system-server.onrender.com/api/callbacks`);
+      const response = await axios.get("http://localhost:5002/api/callbacks");
       setCallbacks(response.data);
     } catch (error) {
       console.error("Error fetching callbacks:", error);
@@ -33,7 +33,7 @@ const CallbackScheduler = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`https://lead-management-system-server.onrender.com/api/callbacks`, formData);
+      await axios.post("http://localhost:5002/api/callbacks", formData);
       setShow(false);
       fetchCallbacks();
     } catch (error) {
@@ -45,7 +45,7 @@ const CallbackScheduler = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this lead?");
     if (!confirmDelete) return;
     try {
-      await axios.delete(`https://lead-management-system-server.onrender.com/api/callbacks/${id}`);
+      await axios.delete(`http://localhost:5002/api/callbacks/${id}`);
       fetchCallbacks();
     } catch (error) {
       console.error("Error deleting callback:", error);

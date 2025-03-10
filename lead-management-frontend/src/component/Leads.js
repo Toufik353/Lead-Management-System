@@ -22,7 +22,7 @@ const Leads = () => {
 
     const fetchLeads = async () => {
         try {
-            const res = await axios.get(`https://lead-management-system-server.onrender.com/api/leads`, {
+            const res = await axios.get("http://localhost:5002/api/leads", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             console.log("leads",res.data)
@@ -37,7 +37,7 @@ const Leads = () => {
         console.log(name, email, phone, status, disposition, remarks,leadSource )
         try {
             const res = await axios.post(
-                `https://lead-management-system-server.onrender.com/api/leads`,
+                "http://localhost:5002/api/leads",
                 { name, email, phone, status, disposition, remarks,leadSource  },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -59,7 +59,7 @@ const Leads = () => {
          const confirmDelete = window.confirm("Are you sure you want to delete this lead?");
     if (!confirmDelete) return;
         try {
-            await axios.delete(`https://lead-management-system-server.onrender.com/api/leads/${id}`, {
+            await axios.delete(`http://localhost:5002/api/leads/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             fetchLeads();
@@ -84,7 +84,7 @@ const Leads = () => {
 
     const handleSaveEdit = async (id) => {
         try {
-            await axios.put(`https://lead-management-system-server.onrender.com/api/leads/${id}`, editData, {
+            await axios.put(`http://localhost:5002/api/leads/${id}`, editData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setEditingLeadId(null);
